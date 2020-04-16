@@ -1,3 +1,26 @@
+@media only screen and (max-width:570px){
+    h1{
+      color: yellow!important;                
+    }
+    body{
+        display: block!important;
+        padding: 5px;
+    }
+    
+    #cards {        
+      display: flex;
+      flex-direction: column;
+      align-items:flex-start;     
+    }
+    #Conteudo{
+        width: 100%!important;
+    }
+}
+#cas{
+    display: flex; 
+    align-items: flex-start;
+}
+
 #ButtonGp{
     background-color: #00ACC1;
     color: #ffff;
@@ -5,6 +28,14 @@
     margin-top: 10px;
     font-family: Quicksand-bold, Helvetica, sans-serif;
     border-radius: 10px;
+}
+
+#textoSelecao{
+    display: flex!important;
+}
+
+#Conteudo{
+    width: 300px;
 }
 
 #CriaEdita{    
@@ -29,7 +60,8 @@
 body {
     display: flex;
     background-color: #1E1E2E;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -48,15 +80,9 @@ h1 {
     flex-direction: line;
 }
 
-#cardItens {
+/* #cardItens {
     border-top: 10px;
     max-width: 600px;
     border-radius: 13px;
     margin-top: 10px;
-}
-
-#cards1 {
-    max-width: 600px;
-    display: flex;
-    flex-direction: line;
-}
+} */

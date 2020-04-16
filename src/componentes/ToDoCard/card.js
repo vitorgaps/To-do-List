@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Backdrop, Fade, Modal, Card, Typography, IconButton, CardContent, Checkbox, CardActions } from '@material-ui/core';
 import { LabelImportant, DeleteOutlineOutlined, EditOutlined, Check, Clear } from '@material-ui/icons';
 import { TextField } from '@material-ui/core';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
-export default function ToDoCard() {
+export default function ToDoCard(props) {
     const [open, setOpen] = React.useState(false);
+    const [descricao, setDescricao] = useState(props.description);
+    const [prioridade, setprioridade] = useState(props.prioridade);
+    const [aux, setAux] = useState('');
+    const [check, setCheck] = useState(false);
+
+    const onMudado = () => {
+        if(aux.length>0){
+          aux===descricao?setDescricao(descricao):setDescricao(aux);    
+        }        
+        setOpen(false);
+    }
+
+    const riscar = (e) => {
+        e ? setCheck(true) : setCheck(false);
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -17,28 +32,45 @@ export default function ToDoCard() {
 
     return (
         <Card id="cards">
-            <Checkbox
-                color="#fff"
-            />
+            <div id="textoSelecao">
+                <Checkbox
+                    checked={check}
+                    onChange={(e) => riscar(e.target.checked)}
+                    color="#fff"
+                />
 
-            <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    This impressive paella is a perfect party dish and a fun meal to cook together with your
-                    guests. Add 1 cup of frozen peas along with the mussels, if you like.
-              </Typography>
-            </CardContent>
+                {check && (
+                    <CardContent>
+                        <Typography id="Conteudo" variant="body2" color="textSecondary" component="p" multiline={true}
+                            style={{ wordWrap: "brefalseak-word", textDecorationLine: 'line-through' }}>
+                            {descricao}
+                        </Typography>
+                    </CardContent>
+                )}
+
+                {!check && (
+                    <CardContent>
+                        <Typography id="Conteudo" variant="body2" color="textSecondary" component="p" multiline={true}
+                            style={{ wordWrap: "break-word", textDecorationLine: 'none' }}
+                        >
+                            {descricao}
+                        </Typography>
+                    </CardContent>
+                )}
+
+            </div>
 
             <CardActions>
                 <IconButton aria-label="editar" onClick={handleOpen}>
                     <EditOutlined style={{ color: "#00ACC1" }} />
                 </IconButton>
 
-                <IconButton aria-label="excluir">
+                <IconButton onClick={props.onDelete} aria-label="excluir">
                     <DeleteOutlineOutlined style={{ color: "#00ACC1" }} />
                 </IconButton>
 
-                <IconButton aria-label="editar" onClick={handleOpen}>
-                    <LabelImportant style={{ color: "#67af78" }} />
+                <IconButton aria-label="prioridade" onClick={handleOpen}>
+                    <LabelImportant style={{ color: prioridade }} />
                 </IconButton>
             </CardActions>
 
@@ -48,6 +80,7 @@ export default function ToDoCard() {
 
                 open={open}
                 onClose={handleClose}
+                // onChange={}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
@@ -56,36 +89,39 @@ export default function ToDoCard() {
                 <Fade in={open}>
                     <div>
                         <Card id="CriaEdita">
-                            <form>
-                                <TextField id="standard-basic" label="Descrição" multiline={true} />
-                            </form>
+                          <form>
+                              <TextField id="standard-basic" label="Descrição" multiline={true}
+                                  onChange={(e) => setAux(e.target.value)}                                  
+                              />
+                          </form>
 
-                            <FormControl id="selectLabel">
-                                <InputLabel id="demo-simple-select-label">Prioridade</InputLabel>
+                          <FormControl id="selectLabel">
+                              <InputLabel id="demo-simple-select-label">Prioridade</InputLabel>
 
-                                <Select
-                                    tabelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                // value={Relevância}
-                                // onChange={handleChange}
-                                >
-                                    <MenuItem value={10}>Alta</MenuItem>
-                                    <MenuItem value={20}>Média</MenuItem>
-                                    <MenuItem value={30}>Baixa</MenuItem>
-                                </Select>
+                              <Select
+                                tabelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={prioridade}
+                                onChange={(e) => setprioridade(e.target.value)}
+                              >
+                                <MenuItem value={"#ac0000"}>Alta</MenuItem>
+                                <MenuItem value={"#ff8521"}>Média</MenuItem>
+                                <MenuItem value={"#4ec464"}>Baixa</MenuItem>
+                              </Select>
 
                             </FormControl>
 
                             <div>
-                                <IconButton aria-label="criar">
-                                    <Check
-                                        style={{ color: "#00ACC1", fontSize: 25 }} />
-                                </IconButton>
+                              <IconButton aria-label="criar">
+                                  <Check
+                                    style={{ color: "#00ACC1", fontSize: 25 }}
+                                    onClick={onMudado} />
+                              </IconButton>
 
-                                <IconButton aria-label="limpar" onClick={handleClose}>
-                                    <Clear
-                                        style={{ color: "#00ACC1", fontSize: 25 }} />
-                                </IconButton>
+                              <IconButton aria-label="limpar" onClick={handleClose}>
+                                <Clear
+                                  style={{ color: "#00ACC1", fontSize: 25 }} />
+                              </IconButton>
                             </div>
                         </Card>
                     </div>
